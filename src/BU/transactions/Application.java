@@ -1,13 +1,15 @@
 package BU.transactions;
 
+import java.util.ArrayList;
+
 public class Application {
 
 	private String name;
 	private String softwareService;
-	private Transaction[] transactions;
+	private ArrayList<Transaction> transactions;
 	private final String TYPE = "APPLICATION";
 
-	public Application(String name, String softwareService, Transaction[] transactions) {
+	public Application(String name, String softwareService, ArrayList<Transaction> transactions) {
 		this.name = name;
 		this.softwareService = softwareService;
 		this.transactions = transactions;
@@ -27,7 +29,7 @@ public class Application {
 
 		res += "  rules: " + "\n";
 		res += "  - ruletype: software-service" + "\n";
-		res += "    softwareService: " + softwareService + "\n";
+		res += "    softwareService: \"" + softwareService + "\"\n";
 		res += "    type: operation" + "\n";
 		
 		
