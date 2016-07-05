@@ -29,22 +29,22 @@ public class Parser {
   public static int MAX_URLS = 50;					// Max number of URLs to process
   public static boolean SAVETOFILE = true;			// Control whether to save output to file or to standard output
 
-public static void main(String[] args) throws Exception {
+  public static void main(String[] args) throws Exception {
 
-	Parser obj = new Parser();
-  	obj.run();
+	   Parser obj = new Parser();
+  	  obj.run();
   }
 
-/**
- * Parser main method
- * @throws Exception
- */
-public void run() throws Exception {
+  /**
+   * Parser main method
+   * @throws Exception
+   */
+  public void run() throws Exception {
 
-//	**********************************
-// 	* SCRIPT CONFIGURATION VARIABLES *
-//	**********************************
-	  String dataCsvFile = "iob.csv";
+    //	**********************************
+    // 	* SCRIPT CONFIGURATION VARIABLES *
+    //	**********************************
+    String dataCsvFile = "iob.csv";
   	String resultFile = "result.yaml";				// If SAVETOFILE flag is set to true, it will save the output to this file
   	String cvsSplitBy = ",";						// Separator for elements within the same line of the CSV
   	String application = "";						// Application name, not necessary if report is filtered by application
@@ -56,11 +56,11 @@ public void run() throws Exception {
 
   	try {
 
-  		//Simplify application name by replacing spaces with underscores
-  		String app = application.replaceAll(" ", "_");
+    	//Simplify application name by replacing spaces with underscores
+    	String app = application.replaceAll(" ", "_");
 
-  		br = new BufferedReader(new InputStreamReader(
-  			    new FileInputStream(dataCsvFile), "UTF-8"));
+    	br = new BufferedReader(new InputStreamReader(
+    		    new FileInputStream(dataCsvFile), "UTF-8"));
 
   		skipFirstLines(br, numLinesBeforeToSkip); //Skip the first 6 lines (header)
 
@@ -104,37 +104,37 @@ public void run() throws Exception {
   		// Loop through each line until reaching MAX_URLS or until reaching end of file
   		while ( counter < MAX_URLS && (line = br.readLine()) != null && !hasEmptyData(line)) {
 
-  			// If "All Other Operations" is in the list, do not add it as a Transaction
-  			if(!operationIsAllOther(line)) {
+    		// If "All Other Operations" is in the list, do not add it as a Transaction
+    		if(!operationIsAllOther(line)) {
 
-	  			// Use the delimiter defined above in script config variables as separator
-	  			String[] lineArr = line.split(cvsSplitBy);
+    			// Use the delimiter defined above in script config variables as separator
+    			String[] lineArr = line.split(cvsSplitBy);
 
-	  			String url = lineArr[0];
-	  			String transactionName = Transaction.parseUrl(url);
+    			String url = lineArr[0];
+    			String transactionName = Transaction.parseUrl(url);
 
-	  			Rule r = new Rule(softwareService, url);
-	  			Rule[] rules = new Rule[1];
-	  			rules[0] = r;
+    			Rule r = new Rule(softwareService, url);
+    			Rule[] rules = new Rule[1];
+    			rules[0] = r;
 
-	  			Step step = new Step(app, transactionName, rules);
-	  			Step[] steps = new Step[1];
-	  			steps[0] = step;
+    			Step step = new Step(app, transactionName, rules);
+    			Step[] steps = new Step[1];
+    			steps[0] = step;
 
-	  			Transaction t = new Transaction(transactionName, app, steps);
-	  			transactions.add(t);
-	  			counter++;
+    			Transaction t = new Transaction(transactionName, app, steps);
+    			transactions.add(t);
+    			counter++;
   			}
   		}
 
-		Application a = new Application(application, softwareService, transactions);
+		  Application a = new Application(application, softwareService, transactions);
 
-		if(SAVETOFILE){
-			PrintWriter pw = new PrintWriter(new File(resultFile));
-			pw.write(a.toString());
-			pw.close();
-		}
-		else System.out.println(a.toString());
+  		if(SAVETOFILE){
+  			PrintWriter pw = new PrintWriter(new File(resultFile));
+  			pw.write(a.toString());
+  			pw.close();
+  		}
+  		else System.out.println(a.toString());
 
 
 
@@ -155,37 +155,38 @@ public void run() throws Exception {
   }
 
 
-/**
- * Returns if the line is empty to signal the end of file
- * @param line
- * @return true/false
- */
-private boolean hasEmptyData(String line) {
-	return line.replaceAll(";", "").replaceAll("-", "").isEmpty();
-}
+  /**
+   * Returns if the line is empty to signal the end of file
+   * @param line
+   * @return true/false
+   */
+  private boolean hasEmptyData(String line) {
+  	return line.replaceAll(";", "").replaceAll("-", "").isEmpty();
+  }
 
-/**
- * Used for detecting if the operation is the infamous "All other Operations"
- * @param line
- * @return true/false
- */
-private boolean operationIsAllOther(String line) {
-	return line.contains("All other");
-}
+  /**
+   * Used for detecting if the operation is the infamous "All other Operations"
+   * @param line
+   * @return true/false
+   */
+  private boolean operationIsAllOther(String line) {
+  	return line.contains("All other");
+  }
 
-/**
- * Helper method to skip a certain number of lines. Used to skip header lines
- * @param br
- * @param numLinesToSkip
- */
-public static void skipFirstLines(BufferedReader br, int numLinesToSkip) {
+  /**
+   * Helper method to skip a certain number of lines. Used to skip header lines
+   * @param br
+   * @param numLinesToSkip
+   */
+  public static void skipFirstLines(BufferedReader br, int numLinesToSkip) {
 	  if(DEBUG) System.out.println("Skipping " + numLinesToSkip);
 	  for(int i=0; i< numLinesToSkip; i++) {
 		  try {
-			br.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        br.readLine();
+		  }
+      catch (IOException e) {
+  			e.printStackTrace();
+		  }
 	  }
   }
 
