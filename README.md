@@ -18,7 +18,7 @@ simply go to `Tools -> DMI -> New Report` (for v12.4) or `Reports -> Define Simp
 for _Operations_ and the metrics that are the most relevant for your use case. 
 In this case we sorted on the _Operations_ metric to show the operations that were being called the most, hence the most critical. 
 If you have a specific use case, feel free to sort on the metric you deem relevant. Also remember to use the _Search_ input box to 
-filter the operations in order to exclude CSS stylesheets or other static resources you might not want to include as a transaction.
+filter the operations in order to exclude CSS stylesheets or other static resources you might not want to include as a transaction. After that click on the cogwheel for the section, and choose the `Export data` option, and save the it to a CSV file.
 
 ## Step 2 - Configure the BU Importer
 
@@ -44,8 +44,8 @@ The program comes with a series of configurable parameters that can be configure
 
 ####IMPORTANT NOTES:
 1. The dataCsvFile must point to the location of the file. It's recommended to save it on the root folder of the project (where the src directory is) to avoid issues with relative paths. Then resultFile will also be saved to this same directory after execution.
-2. The application, if it doesn't exist in the Business Units, will be created. If it does exist it will be replaced. Make sure you verify that all your software services have a rule associated with the transaction.
-3. If no application name is specified, the importer will attempt to parse it from the generated CSV. This will work if the report is filtered by application as well. 
+2. If the application doesn't exist in the Business Units, it will be created. If it _does_ exist, its transactions will be replaced. Make sure you verify that your transactions have all the relevant software services associated with it.
+3. If no application name is specified, the importer will attempt to parse it from the generated CSV. This will work if the report is filtered by application. 
 
 ## Step 3 - Importing the generated YAML file
 
