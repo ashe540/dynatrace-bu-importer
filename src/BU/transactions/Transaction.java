@@ -24,23 +24,40 @@ public class Transaction {
 	 * Ex. 1 http://example.com/abc/action?query=value -> value 
 	 * Ex. 2 http://example.com/abc/-> abc
 	 * Ex. 3 http://example.com/abc/action?query=value&subquery=asd -> value 
+	 * Ex. 4 http://example.aspx -> example
+	 * Ex. 5 http://example.com/test/index.aspx -> index
 	 */
 	public static String parseUrl(String url) {
-
+		String res = null;
+		
 		if(url.contains("?")) {
-			return url.split("\\?")[1].split("&")[0].split("=")[1];
+			res = url.split("\\?")[1].split("&")[0].split("=")[1];
+		}
+		else if(url.split("http://")[1].contains("/")) {
+			String path;
+			try {
+				path = new URI(url).getPath();
+				
+				if(path.contains(".")) {
+					String[] arr = path.split("\\/");
+					res = arr[arr.length - 1];
+				}
+				else res = path.replaceAll("\\/", "");
+				//String lastPartOfUrl = path.substring(path.lastIndexOf('/') + 1);
+				
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(res != null && !res.isEmpty()){ 
+			if(res.charAt(0) == '/')
+				res = res.substring(1);
+			return res.replaceAll("/", "_");
 		}
 
-		String path;
-		try {
-			path = new URI(url).getPath();
-			String lastPartOfUrl = path.substring(path.lastIndexOf('/') + 1);
-			return lastPartOfUrl;
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-
-		}
-		return url;
+		// URL is of type http://example.aspx
+		return url.replace("http://", "").replace("https://", "").split("\\.")[0];
 	}
 	
 	public String toString() {
