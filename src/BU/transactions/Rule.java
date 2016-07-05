@@ -5,7 +5,7 @@ public class Rule {
 
 	String softwareService;
 	String url;
-	
+
 	public Rule(String softwareService, String url) {
 		this.softwareService = softwareService;
 		this.url = url;
@@ -13,12 +13,23 @@ public class Rule {
 
 	public String toString() {
 		String res = "";
-		res += "  - ruletype: software-service" + "\n";
-		res += "        softwareService: " + softwareService + "\n";
-		res += "        type: " + TYPE + "\n";
-		res += "        label: " + url + "\n";
+		String[] ssArray = this.softwareService.replaceAll(" ", "").split("\\|");
+
+		for(int i=0; i < ssArray.length; i++)
+		{
+			String ss = ssArray[i];
+
+			res += "  - ruletype: software-service" + "\n";
+			res += "        softwareService: \"" + ss + "\"\n";
+			res += "        type: " + TYPE + "\n";
+			res += "        label: " + url + "\n";
+
+			if(i < ssArray.length - 1)
+				res += "    ";
+		}
+
 		res += "      filtered: true" + "\n";
-		
+
 		return res;
 	}
 }
