@@ -13,7 +13,7 @@ public class Rule {
 
 	public String toString() {
 		String res = "";
-		String[] ssArray = this.softwareService.replaceAll(" ", "").split("\\|");
+		String[] ssArray = this.softwareService.split("\\|");
 
 		for(int i=0; i < ssArray.length; i++)
 		{
